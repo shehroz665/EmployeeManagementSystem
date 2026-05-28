@@ -1,9 +1,15 @@
-﻿namespace EmployeeManagementSystem.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EmployeeManagementSystem.Entities
 {
     public class Employee
     {
         public int Id { get; set; }
+
+        [MaxLength(25)]
         public string Name { get; set; } = null!;
+
+        [MaxLength(25)]
         public string Email { get; set; } = null!;
         public decimal Salary { get; set; }
         public int? DepartmentId { get; set; }

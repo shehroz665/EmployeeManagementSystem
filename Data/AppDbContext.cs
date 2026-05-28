@@ -65,7 +65,29 @@ namespace EmployeeManagementSystem.Data
             // SEED DATA - Roles
             // =========================
             modelBuilder.Entity<Role>().HasData(RoleSeeder.GetRoles());
+            // =========================
+            // Data Annotation - Add Name length contraints
+            // =========================
+            modelBuilder.Entity<Department>()
+                .Property(p => p.Name)
+                .HasMaxLength(25)
+                .IsRequired();
 
+            modelBuilder.Entity<Role>()
+                .Property(p => p.Name)
+                .HasMaxLength(25)
+                .IsRequired();
+
+
+            modelBuilder.Entity<Employee>()
+                .Property(p => p.Name)
+                .HasMaxLength(25)
+                .IsRequired();
+
+            modelBuilder.Entity<Employee>()
+                .Property(p => p.Email)
+                .HasMaxLength(25)
+                .IsRequired();
         }
     }
 }
