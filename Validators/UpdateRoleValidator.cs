@@ -18,7 +18,7 @@ namespace EmployeeManagementSystem.Validators
 
             RuleFor(x => x)
                .MustAsync(async (x, cancellationToken) =>
-                   await _repository.IsRoleAlreadyExist(x.Id, x.Name)==false)
+                   await _repository.GetRole(r => r.Id != x.Id && r.Name == x.Name) is null)
                .WithMessage("Role already exists.");
         }
     }

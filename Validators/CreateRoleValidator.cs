@@ -15,7 +15,7 @@ namespace EmployeeManagementSystem.Validators
             .MaximumLength(25)
             .WithMessage("Role name must not exceed 25 characters.")
             .MustAsync(async (name, cancellationToken) =>
-                await _repository.GetByNameAsync(name) is null)
+                await _repository.GetRole(r => r.Name.ToLower() == name.ToLower().Trim()) is null)
             .WithMessage("Role already exists.");
         }
     }

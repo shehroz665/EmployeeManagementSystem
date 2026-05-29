@@ -28,7 +28,7 @@ namespace EmployeeManagementSystem.Services
 
         public async Task<Result<Role?>> GetByIdAsync(int id)
         {
-            return Result.Ok(await _repository.GetByIdAsync(id));
+            return Result.Ok(await _repository.GetRole(x => x.Id == id));
         }
 
         public async Task<Result<Role>> CreateAsync(RoleCreateRequestDto role)

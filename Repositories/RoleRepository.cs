@@ -3,6 +3,7 @@ using EmployeeManagementSystem.DTOs;
 using EmployeeManagementSystem.Entities;
 using EmployeeManagementSystem.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace EmployeeManagementSystem.Repositories
 {
@@ -20,20 +21,9 @@ namespace EmployeeManagementSystem.Repositories
                 .AsQueryable();
         }
 
-        public async Task<Role?> GetByIdAsync(int id)
+        public async Task<Role?> GetRole(Expression<Func<Role, bool>> predicate)
         {
-            return await _context.Roles.FirstOrDefaultAsync(r => r.Id == id);
-        }
-
-        public async Task<Role?> GetByNameAsync(string name)
-        {
-            return await _context.Roles.FirstOrDefaultAsync(r => r.Name.ToLower() == name.ToLower().Trim());
-        }
-
-        public async Task<bool> IsRoleAlreadyExist(int id, string name)
-        {
-            return await _context.Roles.AnyAsync(r => r.Id != id 
-            && r.Name.ToLower() == name.ToLower());
+            return await _context.Roles.FirstOrDefaultAsync(predicate);
         }
 
         public async Task<Role> CreateAsync(RoleCreateRequestDto role)
@@ -51,7 +41,7 @@ namespace EmployeeManagementSystem.Repositories
         public async Task<Role?> UpdateAsync(RoleUpdateRequestDto role)
         {
 
-            var existingRole = await GetByIdAsync(role.Id);
+            var existingRole = await GetRole(r => r.Id == role.Id);
             if (existingRole is null) return existingRole;
             existingRole.Name = role.Name;
             existingRole.UpdatedOn = DateTime.UtcNow;
