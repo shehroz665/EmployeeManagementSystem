@@ -8,9 +8,9 @@ namespace EmployeeManagementSystem.Data.Seed
         {
             return new List<Department>
             {
-                new Department { Id = 1, Name = "HR" },
-                new Department { Id = 2, Name = "IT" },
-                new Department { Id = 3, Name = "Finance" }
+                new Department { Id = 1, Name = "HR", CreatedOn = new DateTime(2026,1,1) },
+                new Department { Id = 2, Name = "IT", CreatedOn = new DateTime(2026,1,1) },
+                new Department { Id = 3, Name = "Finance", CreatedOn = new DateTime(2026,1,1) }
             };
         }
     }

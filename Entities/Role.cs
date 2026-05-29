@@ -8,6 +8,8 @@ namespace EmployeeManagementSystem.Entities
 
         [MaxLength(25)]
         public string Name { get; set; } = null!;
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedOn { get; set; }
         public ICollection<Employee> Employees { get; set; }
             = new List<Employee>();
     }

@@ -8,9 +8,9 @@ namespace EmployeeManagementSystem.Data.Seed
         {
             return new List<Entities.Role>
             {
-                new Role { Id = 1, Name = "Admin" },
-                new Role { Id = 2, Name = "Manager" },
-                new Role { Id = 3, Name = "Employee" }
+                new Role { Id = 1, Name = "Admin", CreatedOn = new DateTime(2026,1,1)  },
+                new Role { Id = 2, Name = "Manager", CreatedOn = new DateTime(2026,1,1)  },
+                new Role { Id = 3, Name = "Employee", CreatedOn = new DateTime(2026,1,1)  }
             };
         }
     }
