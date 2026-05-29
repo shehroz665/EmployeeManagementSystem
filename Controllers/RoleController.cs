@@ -52,5 +52,21 @@ namespace EmployeeManagementSystem.Controllers
         }
 
 
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] RoleUpdateRequestDto role)
+        {
+            var result = await _service.UpdateAsync(role);
+            if (result.IsFailed)
+            {
+                return BadRequest(result.Errors);
+            }
+            else if(result.Value == null)
+            {
+                return NotFound("Role not found."); 
+            }
+            return Ok(result.Value);
+        }
+
+
     }
 }

@@ -9,6 +9,7 @@ namespace EmployeeManagementSystem.Interfaces
         Task<Result<IEnumerable<Role>>> GetAllAsync();
         Task<Result<Role?>> GetByIdAsync(int id);
         Task<Result<Role>> CreateAsync(RoleCreateRequestDto role);
+        Task<Result<Role?>> UpdateAsync(RoleUpdateRequestDto role);
 
     }
 }

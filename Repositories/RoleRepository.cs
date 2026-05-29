@@ -29,9 +29,11 @@ namespace EmployeeManagementSystem.Repositories
         {
             return await _context.Roles.FirstOrDefaultAsync(r => r.Name.ToLower() == name.ToLower().Trim());
         }
-        public async Task<Role?> GetExistingRoleAsync(Role role)
+
+        public async Task<bool> IsRoleAlreadyExist(int id, string name)
         {
-            return await _context.Roles.FirstOrDefaultAsync(r => r.Id == role.Id);
+            return await _context.Roles.AnyAsync(r => r.Id != id 
+            && r.Name.ToLower() == name.ToLower());
         }
 
         public async Task<Role> CreateAsync(RoleCreateRequestDto role)
@@ -46,12 +48,16 @@ namespace EmployeeManagementSystem.Repositories
             return newRole;
         }
 
-        public async Task<Role?> UpdateAsync(Role role)
+        public async Task<Role?> UpdateAsync(RoleUpdateRequestDto role)
         {
-            role.UpdatedOn = DateTime.UtcNow;
-            _context.Roles.Update(role);
+
+            var existingRole = await GetByIdAsync(role.Id);
+            if (existingRole is null) return existingRole;
+            existingRole.Name = role.Name;
+            existingRole.UpdatedOn = DateTime.UtcNow;
+            _context.Roles.Update(existingRole);
             await _context.SaveChangesAsync();
-            return role;
+            return existingRole;
         }
 
         public async Task<bool> DeleteAsync(Role role)

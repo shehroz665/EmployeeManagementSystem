@@ -42,6 +42,21 @@ namespace EmployeeManagementSystem.Services
             return Result.Ok(result);
         }
 
+        public async Task<Result<Role?>> UpdateAsync(RoleUpdateRequestDto role)
+        {
+            var validator = new UpdateRoleValidator(_repository);
+            var validationResult = await validator.ValidateAsync(role);
+            if (!validationResult.IsValid)
+            {
+                return Result.Fail<Role?>(validationResult.Errors.Select(x => x.ErrorMessage));
+            }
+            var result = await _repository.UpdateAsync(role);
+            if(result is null)
+            {
+                return Result.Fail<Role?>("Role not found");
+            }
+            return Result.Ok<Role?>(result);
+        }
 
     }
 }

@@ -8,9 +8,9 @@ namespace EmployeeManagementSystem.Interfaces
         IQueryable<Role> GetAll();
         Task<Role?> GetByIdAsync(int id);
         Task<Role?> GetByNameAsync(string name);
-        Task<Role?> GetExistingRoleAsync(Role role);
+        Task<bool> IsRoleAlreadyExist(int id,string name);
         Task<Role> CreateAsync(RoleCreateRequestDto role);
-        Task<Role?> UpdateAsync(Role role);
+        Task<Role?> UpdateAsync(RoleUpdateRequestDto role);
         Task<bool> DeleteAsync(Role role);
     }
 }
