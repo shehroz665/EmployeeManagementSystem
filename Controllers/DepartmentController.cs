@@ -1,4 +1,5 @@
-﻿using EmployeeManagementSystem.DTOs;
+﻿using EmployeeManagementSystem.Core;
+using EmployeeManagementSystem.DTOs;
 using EmployeeManagementSystem.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace EmployeeManagementSystem.Controllers
         {
             _service = service;
         }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -31,6 +33,13 @@ namespace EmployeeManagementSystem.Controllers
             {
                 return NotFound("Department not found.");
             }
+            return Ok(result.Value);
+        }
+
+        [HttpGet("paginated")]
+        public async Task<IActionResult> GetPaginated([FromQuery] PaginatedRequestDto request)
+        {
+            var result = await _service.GetPaginatedAsync(request);
             return Ok(result.Value);
         }
 

@@ -1,6 +1,8 @@
-﻿using EmployeeManagementSystem.Data;
+﻿using EmployeeManagementSystem.Core;
+using EmployeeManagementSystem.Data;
 using EmployeeManagementSystem.DTOs;
 using EmployeeManagementSystem.Entities;
+using EmployeeManagementSystem.Enums;
 using EmployeeManagementSystem.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -13,6 +15,42 @@ namespace EmployeeManagementSystem.Repositories
         public DepartmentRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<PagedResult<Department>> GetPaginatedAsync(PaginatedRequestDto request)
+        {
+            var query = _context.Departments.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(request.Search))
+            {
+                string searchTerm = request.Search.Trim().ToLower();
+                query = query.Where(d => d.Name.ToLower().Contains(searchTerm));
+            }
+            query = request.SortColumn switch
+            {
+                1 => request.SortDirection == SortDirection.ASC
+                    ? query.OrderBy(d => d.Id)
+                    : query.OrderByDescending(d => d.Id),
+
+                2 => request.SortDirection == SortDirection.ASC
+                    ? query.OrderBy(d => d.Name)
+                    : query.OrderByDescending(d => d.Name),
+
+                _ => request.SortDirection == SortDirection.ASC
+                    ? query.OrderBy(d => d.Id)
+                    : query.OrderByDescending(d => d.Id)
+            };
+            int totalCount = await query.CountAsync();
+            var items = await query
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+            return new PagedResult<Department>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
         }
 
         public IQueryable<Department> GetAll()

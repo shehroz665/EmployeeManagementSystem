@@ -1,4 +1,5 @@
-﻿using EmployeeManagementSystem.DTOs;
+﻿using EmployeeManagementSystem.Core;
+using EmployeeManagementSystem.DTOs;
 using EmployeeManagementSystem.Interfaces;
 using FluentResults;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +30,7 @@ namespace EmployeeManagementSystem.Controllers
             return Ok(result.Value);
         }
 
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -37,6 +39,13 @@ namespace EmployeeManagementSystem.Controllers
             {
                 return NotFound("Role not found.");
             }
+            return Ok(result.Value);
+        }
+
+        [HttpGet("paginated")]
+        public async Task<IActionResult> GetPaginated([FromQuery] PaginatedRequestDto request)
+        {
+            var result = await _service.GetPaginatedAsync(request);
             return Ok(result.Value);
         }
 

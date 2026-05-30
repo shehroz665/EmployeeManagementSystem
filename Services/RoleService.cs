@@ -1,4 +1,5 @@
-﻿using EmployeeManagementSystem.DTOs;
+﻿using EmployeeManagementSystem.Core;
+using EmployeeManagementSystem.DTOs;
 using EmployeeManagementSystem.Entities;
 using EmployeeManagementSystem.Interfaces;
 using EmployeeManagementSystem.Validators;
@@ -13,6 +14,11 @@ namespace EmployeeManagementSystem.Services
         public RoleService(IRoleRepository repository)
         {
             _repository = repository;
+        }
+
+        public async Task<Result<PagedResult<Role>>> GetPaginatedAsync(PaginatedRequestDto request)
+        {
+            return Result.Ok(await _repository.GetPaginatedAsync(request));
         }
 
         public async Task<Result<IEnumerable<Role>>> GetAllAsync()

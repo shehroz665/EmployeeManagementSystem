@@ -1,4 +1,5 @@
-﻿using EmployeeManagementSystem.DTOs;
+﻿using EmployeeManagementSystem.Core;
+using EmployeeManagementSystem.DTOs;
 using EmployeeManagementSystem.Entities;
 using EmployeeManagementSystem.Interfaces;
 using EmployeeManagementSystem.Validators;
@@ -15,6 +16,10 @@ namespace EmployeeManagementSystem.Services
             _repository = repository;
         }
 
+        public async Task<Result<PagedResult<Department>>> GetPaginatedAsync(PaginatedRequestDto request)
+        {
+            return Result.Ok(await _repository.GetPaginatedAsync(request));
+        }
         public async Task<Result<IEnumerable<Department>>> GetAllAsync()
             {
                 var query = _repository.GetAll();
